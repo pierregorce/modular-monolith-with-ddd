@@ -12,24 +12,21 @@ namespace Core.Domain.Authoring.Book
         public BookTitle? Title { get; private set; }
         public AuthorId AuthorId { get; private set; }
         public ProgressionStatusEnum ProgressionStatus { get; private set; }
-        public Money? AuthorEstimatedPrice { get; private set; }
-        public Money? TargetPrice { get; private set; }
-        
         public AuthorRevisionVersion? RevisionVersion { get; private set; }
 
         public IReadOnlyList<Chapter> Chapters => _chapters.ToList();
         private readonly IList<Chapter> _chapters;
 
-        private BookAggregate(BookId id, BookId bookId, BookTitle? title, AuthorId authorId, ProgressionStatusEnum progressionStatus, Money? authorEstimatedPrice, IList<Chapter> chapters) : base(id)
+        private BookAggregate(BookId id, BookId bookId, BookTitle? title, AuthorId authorId, ProgressionStatusEnum progressionStatus, AuthorRevisionVersion? revisionVersion, IList<Chapter> chapters) : base(id)
         {
             BookId = bookId;
             Title = title;
             AuthorId = authorId;
             ProgressionStatus = progressionStatus;
-            AuthorEstimatedPrice = authorEstimatedPrice;
+            RevisionVersion = revisionVersion;
             _chapters = chapters;
         }
-
+        
         public static BookAggregate CreateDraftBook(BookId id, BookId bookId, BookTitle? title, AuthorId authorId)
         {
             return new BookAggregate(

@@ -4,19 +4,29 @@ using CSharpFunctionalExtensions;
 
 namespace Core.Domain.Authoring.Book
 {
-    public class BookTitle : SimpleValueObject<string>
+    public class BookTitle : ValueObject
     {
-        public BookTitle(string value) : base(value)
+        public string MainTitle { get; }
+        public string? SecondaryTitle { get; }
+
+        public BookTitle(string mainTitle, string? secondaryTitle)
         {
+            MainTitle = mainTitle;
+            SecondaryTitle = secondaryTitle;
         }
 
-        public Result<BookTitle> Create(string title)
+        public static Result<BookTitle> Create(string mainTitle, string? secondaryTitle)
         {
-            if (title.IsNullOrWhiteSpace()) return Result.Failure<BookTitle>("ERROR 1");
-            if (title.Length > 100) return Result.Failure<BookTitle>("ERROR 2");
-            if (title.Trim() != title) return Result.Failure<BookTitle>("ERROR 3");
+            if (mainTitle.IsNullOrWhiteSpace()) return Result.Failure<BookTitle>("ERROR 1");
+            if (mainTitle.Length > 100) return Result.Failure<BookTitle>("ERROR 2");
+            if (mainTitle.Trim() != mainTitle) return Result.Failure<BookTitle>("ERROR 3");
+
+            if (secondaryTitle == null)
+            {
+                
+            }
             
-            return Result.Success<BookTitle>(new BookTitle(title));
+            return Result.Success(new BookTitle(mainTitle, secondaryTitle));
         }
     }
 }

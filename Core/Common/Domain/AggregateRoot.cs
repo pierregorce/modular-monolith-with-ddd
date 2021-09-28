@@ -9,4 +9,8 @@
             Id = id;
         }
     }
+    
+    public interface IAggregateRoot<TPrimaryKey>
+    {
+    }
 }
